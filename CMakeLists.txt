@@ -1,0 +1,22 @@
+cmake_minimum_required(VERSION 3.19)
+project(spring2025-csc4700-lectures)
+
+set(CMAKE_CXX_STANDARD 23)
+
+add_subdirectory(lecture2)
+add_subdirectory(lecture4)
+add_subdirectory(lecture5)
+add_subdirectory(lecture7)
+add_subdirectory(lecture8)
+
+add_subdirectory(span)
+add_subdirectory(monte_carlo)
+add_subdirectory(integration)
+add_subdirectory(fractals)
+add_subdirectory(matrices)
+add_subdirectory(k-means)
+add_subdirectory(binomial_coefficients)
+add_subdirectory(n-body)
+add_subdirectory(taylor_series)
+add_subdirectory(threads)
+add_subdirectory(tasks)
