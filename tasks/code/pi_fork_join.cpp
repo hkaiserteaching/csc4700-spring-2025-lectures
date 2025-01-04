@@ -7,7 +7,6 @@
 #include <vector>
 
 #include <hpx/algorithm.hpp>
-#include <hpx/datapar.hpp>
 #include <hpx/hpx_main.hpp>
 #include <hpx/iterator_support/counting_iterator.hpp>
 
@@ -22,7 +21,7 @@ inline auto sqr(auto val)
 
 int main(int argc, char* argv[])
 {
-    long long N = 1'000'000'000;    // really large number
+    long N = 1'000'000'000;    // really large number
     int num_blocks = 4;
 
     if (argc > 1)
@@ -33,9 +32,14 @@ int main(int argc, char* argv[])
 
     t.start();
 
-    double pi = hpx::transform_reduce(hpx::execution::par,
-        hpx::util::counting_iterator(0ll), hpx::util::counting_iterator(N), 0.0,
-        std::plus<>{}, [&](auto i) { return h * 4.0 / (1 + sqr(double(i) * h)); });
+    double pi = 0.0;
+    hpx::experimental::for_loop(hpx::execution::par,
+        0l, N, hpx::experimental::reduction_plus(pi),
+        [&](auto i, auto& local_pi)
+        {
+            local_pi += h * 4.0 / (1 + sqr(double(i) * h));
+        }
+    );
 
     t.stop();
 
