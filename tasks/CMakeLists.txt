@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 23)
 find_package(HPX REQUIRED)
 
 add_executable(pi_threads code/pi_threads.cpp)
+add_executable(pi_async code/pi_async.cpp)
 add_executable(types code/types.cpp)
 
 add_executable(pi_fork_join code/pi_fork_join.cpp)

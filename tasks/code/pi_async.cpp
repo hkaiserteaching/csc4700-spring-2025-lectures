@@ -1,4 +1,6 @@
-#include <mutex>
+
+#include <future>
+#include <numeric>
 #include <print>
 #include <string>
 #include <thread>
@@ -11,17 +13,12 @@ double sqr(double val)
     return val * val;
 }
 
-double pi = 0.0;
-std::mutex mtx;
-
-void pi_helper(long long begin, long long end, double h)
+double pi_helper(long long begin, long long end, double h)
 {
     double local_pi = 0.0;
     for (long long i = begin; i != end; ++i)
         local_pi += h * 4.0 / (1 + sqr(i * h));
-
-    std::lock_guard<std::mutex> l(mtx);
-    pi += local_pi;
+    return local_pi;
 }
 
 int main(int argc, char* argv[])
@@ -39,17 +36,20 @@ int main(int argc, char* argv[])
 
     t.start();
 
-    std::vector<std::thread> threads;
+    std::vector<std::future<double>> part_pi;
+    double pi = 0.0;
     long long block_size = N / num_blocks;
 
     for (int n = 0; n != num_blocks; ++n)
-        threads.push_back(
-            std::thread(pi_helper, n * block_size, (n + 1) * block_size, h));
+        part_pi.push_back(std::async(std::launch::async, pi_helper,
+            n * block_size, (n + 1) * block_size, h));
 
     for (int n = 0; n != num_blocks; ++n)
-        threads[n].join();
+        pi += part_pi[n].get();
 
     t.stop();
 
     std::println("pi: {}, time: {} [ms]", pi, t.elapsed());
+
+    return 0;
 }
