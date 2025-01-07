@@ -7,7 +7,6 @@
 #include <vector>
 
 #include <hpx/algorithm.hpp>
-#include <hpx/datapar.hpp>
 #include <hpx/hpx_main.hpp>
 #include <hpx/iterator_support/counting_iterator.hpp>
 
@@ -35,9 +34,10 @@ int main(int argc, char* argv[])
 
     double pi = 0.0;
     hpx::experimental::for_loop(hpx::execution::par,
-        0l, N, hpx::experimental::reduction_plus(pi, 0.0),
-        [&](auto i, auto& local_pi) { 
-            local_pi += h * 4.0 / (1 + sqr(double(i) * h)); 
+        0l, N, hpx::experimental::reduction_plus(pi),
+        [&](auto i, auto& local_pi)
+        {
+            local_pi += h * 4.0 / (1 + sqr(double(i) * h));
         }
     );
 

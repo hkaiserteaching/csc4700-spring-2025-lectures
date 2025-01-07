@@ -25,11 +25,21 @@ inline double to_double(long long x)
     return double(x);
 }
 
+#if defined(HPX_HAVE_DATAPAR_EXPERIMENTAL_SIMD)
 template <typename T, typename Abi>
 inline auto to_double(std::experimental::simd<T, Abi> const& x)
 {
     return std::experimental::static_simd_cast<double>(x);
 }
+#endif
+
+#if defined(HPX_HAVE_DATAPAR_VC)
+template <typename T, typename Abi>
+inline auto to_double(Vc::Vector<T, Abi> const& x)
+{
+    return Vc::simd_cast<double>(x);
+}
+#endif
 
 int main(int argc, char* argv[])
 {
