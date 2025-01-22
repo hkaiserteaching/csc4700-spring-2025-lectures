@@ -12,8 +12,8 @@ add_executable(types code/types.cpp)
 add_executable(pi_fork_join code/pi_fork_join.cpp)
 target_link_libraries(pi_fork_join HPX::hpx HPX::wrap_main)
 
-add_executable(pi_fork_join_simd code/pi_fork_join_simd.cpp)
-target_link_libraries(pi_fork_join_simd HPX::hpx HPX::wrap_main)
+#add_executable(pi_fork_join_simd code/pi_fork_join_simd.cpp)
+#target_link_libraries(pi_fork_join_simd HPX::hpx HPX::wrap_main)
 
 add_executable(pi_hpx_async code/pi_hpx_async.cpp)
 target_link_libraries(pi_hpx_async HPX::hpx HPX::wrap_main)

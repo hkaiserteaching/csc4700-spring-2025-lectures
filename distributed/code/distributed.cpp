@@ -3,9 +3,8 @@
 #include <print>
 #include <string>
 
-#include <hpx/collectives.hpp>
+#include <hpx/hpx.hpp>
 #include <hpx/hpx_main.hpp>
-#include <hpx/include/runtime.hpp>
 
 inline double sqr(double val)
 {
